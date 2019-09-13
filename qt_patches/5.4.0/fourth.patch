@@ -1,0 +1,17 @@
+--- a/src/plugins/platforms/cocoa/qcocoacursor.mm	2015-08-06 10:40:03.000000000 +0300
++++ b/src/plugins/platforms/cocoa/qcocoacursor.mm	2015-08-06 11:15:35.000000000 +0300
+@@ -73,9 +73,11 @@
+     pos.x = position.x();
+     pos.y = position.y();
+ 
+-    CGEventRef e = CGEventCreateMouseEvent(0, kCGEventMouseMoved, pos, 0);
+-    CGEventPost(kCGHIDEventTap, e);
+-    CFRelease(e);
++    CGEventRef e = CGEventCreateMouseEvent(NULL, kCGEventMouseMoved, pos, kCGMouseButtonLeft);
++    if (e != NULL) {
++        CGEventPost(kCGHIDEventTap, e);
++        CFRelease(e);
++    }
+ }
+ 
+ NSCursor *QCocoaCursor::convertCursor(QCursor * cursor)

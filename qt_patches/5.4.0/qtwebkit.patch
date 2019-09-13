@@ -1,0 +1,68 @@
+diff -urpN qt-everywhere-opensource-src-5.4.0/qtwebkit/Source/JavaScriptCore/API/JSBase.h qt-everywhere-opensource-src-5.4.0_patch/qtwebkit/Source/JavaScriptCore/API/JSBase.h
+--- qt-everywhere-opensource-src-5.4.0/qtwebkit/Source/JavaScriptCore/API/JSBase.h	2014-12-05 17:24:55.000000000 +0100
++++ qt-everywhere-opensource-src-5.4.0_patch/qtwebkit/Source/JavaScriptCore/API/JSBase.h	2019-04-12 11:25:27.000000000 +0200
+@@ -139,6 +139,8 @@ JS_EXPORT void JSGarbageCollect(JSContex
+ }
+ #endif
+ 
++#define JSC_OBJC_API_ENABLED 0
++
+ /* Enable the Objective-C API for platforms with a modern runtime. */
+ #if !defined(JSC_OBJC_API_ENABLED)
+ #define JSC_OBJC_API_ENABLED (defined(__clang__) && defined(__APPLE__) && defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090 && !defined(__i386__))
+diff -urpN qt-everywhere-opensource-src-5.4.0/qtwebkit/Source/WebKit2/Platform/CoreIPC/MessageDecoder.cpp qt-everywhere-opensource-src-5.4.0_patch/qtwebkit/Source/WebKit2/Platform/CoreIPC/MessageDecoder.cpp
+--- qt-everywhere-opensource-src-5.4.0/qtwebkit/Source/WebKit2/Platform/CoreIPC/MessageDecoder.cpp	2014-12-05 17:24:56.000000000 +0100
++++ qt-everywhere-opensource-src-5.4.0_patch/qtwebkit/Source/WebKit2/Platform/CoreIPC/MessageDecoder.cpp	2019-04-12 14:20:42.000000000 +0200
+@@ -31,9 +31,9 @@
+ #include "MessageFlags.h"
+ #include "StringReference.h"
+ 
+-#if PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
++// #if PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
+ #include "ImportanceAssertion.h"
+-#endif
++// #endif
+ 
+ namespace CoreIPC {
+ 
+@@ -77,11 +77,11 @@ bool MessageDecoder::shouldDispatchMessa
+     return m_messageFlags & DispatchMessageWhenWaitingForSyncReply;
+ }
+ 
+-#if PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
++// #if PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
+ void MessageDecoder::setImportanceAssertion(PassOwnPtr<ImportanceAssertion> assertion)
+ {
+     m_importanceAssertion = assertion;
+ }
+-#endif
++// #endif
+ 
+ } // namespace CoreIPC
+diff -urpN qt-everywhere-opensource-src-5.4.0/qtwebkit/Source/WebKit2/Platform/CoreIPC/MessageDecoder.h qt-everywhere-opensource-src-5.4.0_patch/qtwebkit/Source/WebKit2/Platform/CoreIPC/MessageDecoder.h
+--- qt-everywhere-opensource-src-5.4.0/qtwebkit/Source/WebKit2/Platform/CoreIPC/MessageDecoder.h	2014-12-05 17:24:56.000000000 +0100
++++ qt-everywhere-opensource-src-5.4.0_patch/qtwebkit/Source/WebKit2/Platform/CoreIPC/MessageDecoder.h	2019-04-12 11:26:32.000000000 +0200
+@@ -46,9 +46,9 @@ public:
+     bool isSyncMessage() const;
+     bool shouldDispatchMessageWhenWaitingForSyncReply() const;
+ 
+-#if PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
++// #if PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
+     void setImportanceAssertion(PassOwnPtr<ImportanceAssertion>);
+-#endif
++// #endif
+ 
+ private:
+     MessageDecoder(const DataReference& buffer, Vector<Attachment>&);
+@@ -57,9 +57,9 @@ private:
+     StringReference m_messageReceiverName;
+     StringReference m_messageName;
+ 
+-#if PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
++// #if PLATFORM(MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
+     OwnPtr<ImportanceAssertion> m_importanceAssertion;
+-#endif
++// #endif
+ };
+ 
+ } // namespace CoreIPC
