@@ -244,5 +244,5 @@ make -j '"$nb_proc"' omshell
 make -j '"$nb_proc"' omlibrary-core
 make -j '"$nb_proc"' all
 
-install_name_tool -add_rpath '"$install_path"'/lib '"$install_path"'/OpenModelica/Applications/OMEdit.app/Contents/MacOS/OMEdit' > $install_path/install_openmodelica.sh
+install_name_tool -add_rpath '"$install_path"'/lib $(find build -name "OMEdit.app")/Contents/MacOS/OMEdit' > $install_path/install_openmodelica.sh
 chmod +x $install_path/install_openmodelica.sh
