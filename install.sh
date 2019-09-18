@@ -219,3 +219,30 @@ if [ "$1" = "build-omcDynawo" ]; then
 fi
 
 $DYNAWO_HOME/util/envDynawo.sh $@' > $install_path/myEnvDynawo.sh
+
+echo '#!/bin/bash
+
+export PATH='"$(find $install_path/Qt -type d -name "qtbase")"'/bin:'"$install_path"'/bin:$PATH
+export BOOST_ROOT='"$install_path"'
+
+MY_LDFLAGS="-L'"$install_path"'/lib"
+
+MY_CPPFLAGS="-I'"$install_path"'/include"
+
+export JAVA_HOME='"$install_path"'/Java/'"$(ls $install_path/Java)"'/Contents/Home
+
+export CPATH=$CPATH:"$(xcrun --show-sdk-path)/usr/include":'"$install_path"'/include
+
+autoreconf
+./configure --disable-option-checking --prefix='"$install_path"'/OpenModelica CC=clang CXX=clang++ '"'"'LDFLAGS=-L'"$install_path"'/lib -L'"$(find "$install_path"/Qt -type d -name "qtbase")""/lib'"' '"'"'CPPFLAGS=-I'"$install_path"'/include -I'"$(find "$install_path"/Qt -type d -name "qtbase")"'/include'"'"' CXXFLAGS=-stdlib=libc++ --cache-file=/dev/null --srcdir=.
+
+make -j 12
+make -j 12 omplot
+make -j 12 omedit
+make -j 12 omnotebook 
+make -j 12 omshell 
+make -j 12 omlibrary-core
+make -j 12 all
+
+install_name_tool -add_rpath '"$install_path"'/lib '"$install_path"'/OpenModelica/Applications/OMEdit.app/Contents/MacOS/OMEdit' > $install_path/install_openmodelica.sh
+chmod +x $install_path/install_openmodelica.sh
