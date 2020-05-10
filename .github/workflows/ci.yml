@@ -1,0 +1,21 @@
+name: CI
+
+on: [push]
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  macos:
+    name: MacOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
+
+      - name: Install
+        run: |
+          pwd
+          ./install.sh --help
+
+# curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/zip" -X POST $(curl -s --request GET https://api.github.com/repos/gautierbureau/dynawo-macos/releases/tags/test | grep upload_url | cut -d '"' -f 4 | grep -o ".*assets")?name=package.zip --data-binary @package.zip
