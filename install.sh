@@ -116,19 +116,19 @@ $SCRIPT_DIR/gettext.sh -p $install_path -j $nb_proc || { echo "Error while gette
 $SCRIPT_DIR/xz.sh -p $install_path -j $nb_proc || { echo "Error while xz install."; exit 1; }
 $SCRIPT_DIR/cmake.sh -p $install_path -j $nb_proc || { echo "Error while cmake install."; exit 1; }
 
-$SCRIPT_DIR/boost.sh -p $install_path -j $nb_proc || { echo "Error while boost install."; exit 1; }
-$SCRIPT_DIR/libarchive.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while libarchive install."; exit 1; }
+# $SCRIPT_DIR/boost.sh -p $install_path -j $nb_proc || { echo "Error while boost install."; exit 1; }
+# $SCRIPT_DIR/libarchive.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while libarchive install."; exit 1; }
 
-$SCRIPT_DIR/googletest.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while googletest install."; exit 1; }
-$SCRIPT_DIR/doxygen.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while doxygen install."; exit 1; }
-$SCRIPT_DIR/lcov.sh -p $install_path -j $nb_proc || { echo "Error while lcov install."; exit 1; }
+# $SCRIPT_DIR/googletest.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while googletest install."; exit 1; }
+# $SCRIPT_DIR/doxygen.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while doxygen install."; exit 1; }
+# $SCRIPT_DIR/lcov.sh -p $install_path -j $nb_proc || { echo "Error while lcov install."; exit 1; }
 
 $SCRIPT_DIR/java.sh -p $install_path/Java || { echo "Error while java install."; exit 1; }
 
 $SCRIPT_DIR/help2man.sh -p $install_path -j $nb_proc || { echo "Error while help2man install."; exit 1; }
 $SCRIPT_DIR/texinfo.sh -p $install_path -j $nb_proc || { echo "Error while texinfo install."; exit 1; }
 $SCRIPT_DIR/icu.sh -p $install_path -j $nb_proc || { echo "Error while icu install."; exit 1; }
-$SCRIPT_DIR/osg.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while OSG install."; exit 1; }
+# $SCRIPT_DIR/osg.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while OSG install."; exit 1; }
 $SCRIPT_DIR/omniorb.sh -p $install_path -j $nb_proc || { echo "Error while omniorb install."; exit 1; }
 $SCRIPT_DIR/hdf5.sh -p $install_path -j $nb_proc || { echo "Error while hdf5 install."; exit 1; }
 
@@ -139,7 +139,7 @@ $SCRIPT_DIR/libexpat.sh -p $install_path -j $nb_proc -a $install_path/bin || { e
 $SCRIPT_DIR/ncurses.sh -p $install_path -j $nb_proc || { echo "Error while ncurses install."; exit 1; }
 $SCRIPT_DIR/readline.sh -p $install_path -j $nb_proc || { echo "Error while readline install."; exit 1; }
 
-$SCRIPT_DIR/qt.sh -p $install_path -j $nb_proc || { echo "Error while qt install."; exit 1; }
+#$SCRIPT_DIR/qt.sh -p $install_path -j $nb_proc || { echo "Error while qt install."; exit 1; }
 
 pip_path=$(find /Users/$(id -u -n)/Library/Python -type f -name "pip" | head -1)
 if [ ! -z "$pip_path" ]; then
@@ -200,10 +200,10 @@ export DYNAWO_CXX11_ENABLED=YES
 export DYNAWO_COMPILER=CLANG
 export DYNAWO_LIBRARY_TYPE=SHARED
 
-export DYNAWO_LIBARCHIVE_HOME='"$install_path"'
-export DYNAWO_BOOST_HOME='"$install_path"'
-export DYNAWO_GTEST_HOME='"$install_path"'
-export DYNAWO_GMOCK_HOME=$DYNAWO_GTEST_HOME
+#export DYNAWO_LIBARCHIVE_HOME='"$install_path"'
+#export DYNAWO_BOOST_HOME='"$install_path"'
+#export DYNAWO_GTEST_HOME='"$install_path"'
+#export DYNAWO_GMOCK_HOME=$DYNAWO_GTEST_HOME
 
 export PATH='"$install_path"'/bin:$PATH
 export PATH="$(dirname $(xcrun -f llvm-cov))":$PATH

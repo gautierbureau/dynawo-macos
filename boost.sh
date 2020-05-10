@@ -55,7 +55,7 @@ fi
 
 install_path=$(python -c "import os; print(os.path.realpath('$install_path'))")
 
-BOOST_VERSION=1_69_0
+BOOST_VERSION=1_70_0
 BOOST_ARCHIVE=boost_${BOOST_VERSION}.tar.gz
 BOOST_DIRECTORY=boost_$BOOST_VERSION
 BOOST_DOWNLOAD_URL=https://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION//_/.}
@@ -71,7 +71,7 @@ if [ ! -z "$MACOSX_DEPLOYMENT_TARGET" ]; then
 fi
 
 pushd $SCRIPT_DIR/build/$BOOST_DIRECTORY
-./bootstrap.sh --prefix=$install_path cxxstd=11 --with-toolset=clang --with-libraries=filesystem,program_options,serialization,system,log,iostreams,atomic || { echo "Error while boost bootstrap."; exit 1; }
+./bootstrap.sh --prefix=$install_path --with-libraries=filesystem,program_options,serialization,system,log,iostreams,atomic || { echo "Error while boost bootstrap."; exit 1; }
 ./b2 -d2 -j $nb_proc --build-dir=$SCRIPT_DIR/build-boost cxxflags="-std=c++11 $CC_FLAG" toolset=clang variant=release install || { echo "Error while boost b2."; exit 1; }
 
 for file in `find $install_path/lib -name "libboost*.dylib"`; do
