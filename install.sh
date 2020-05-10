@@ -140,109 +140,109 @@ $SCRIPT_DIR/ncurses.sh -p $install_path -j $nb_proc || { echo "Error while ncurs
 $SCRIPT_DIR/readline.sh -p $install_path -j $nb_proc || { echo "Error while readline install."; exit 1; }
 
 #$SCRIPT_DIR/qt.sh -p $install_path -j $nb_proc || { echo "Error while qt install."; exit 1; }
-
-pip_path=$(find /Users/$(id -u -n)/Library/Python -type f -name "pip" | head -1)
-if [ ! -z "$pip_path" ]; then
-  export PATH=$(dirname $pip_path):$PATH
-  if [ -x "$(command -v pip)" ]; then
-    pip_already_installed="yes"
-  fi
-fi
-
-if [ -z "$pip_already_installed" ]; then
-  echo -e "Do you want to install pip? \033[1;31m(y/n)\033[0m"
-  IFS= read -r -d\0 -n 1 pip_answer
-  if [ ! "$pip_answer" = $'\n' ]; then echo ; fi
-  case "$pip_answer" in
-    [yY])
-      pip_path=$(find /Users/$(id -u -n)/Library/Python -type f -name "pip" | head -1)
-      if [ ! -z "$pip_path" ]; then
-        export PATH=$(dirname $pip_path):$PATH
-      fi
-      if [ ! -x "$(command -v pip)" ]; then
-        curl -L https://bootstrap.pypa.io/get-pip.py -o $SCRIPT_DIR/data/get-pip.py
-        python $SCRIPT_DIR/data/get-pip.py --user
-      fi
-      ;;
-    [nN]|$'\n')
-      ;;
-    *)
-      echo "$pip_answer: invalid answer."
-      ;;
-  esac
-fi
-
-pip_path=$(find /Users/$(id -u -n)/Library/Python -type f -name "pip" | head -1)
-if [ ! -z "$pip_path" ]; then
-  export PATH=$(dirname $pip_path):$PATH
-fi
-if [ -x "$(command -v pip)" ]; then
-  pip install --user lxml
-  pip install --user psutil
-else
-  echo "Something went wrong with pip. You need to install pip and two packages lxml and psutil."
-fi
-
-echo '#!/bin/bash
-export DYNAWO_HOME=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-
-export DYNAWO_SRC_OPENMODELICA=$DYNAWO_HOME/OpenModelica/Source
-export DYNAWO_INSTALL_OPENMODELICA=$DYNAWO_HOME/OpenModelica/Install
-
-export DYNAWO_LOCALE=en_GB
-export DYNAWO_RESULTS_SHOW=true
-export DYNAWO_BROWSER="open -a Safari"
-
-export DYNAWO_NB_PROCESSORS_USED=1
-
-export DYNAWO_BUILD_TYPE=Release
-export DYNAWO_CXX11_ENABLED=YES
-export DYNAWO_COMPILER=CLANG
-export DYNAWO_LIBRARY_TYPE=SHARED
-
-#export DYNAWO_LIBARCHIVE_HOME='"$install_path"'
-#export DYNAWO_BOOST_HOME='"$install_path"'
-#export DYNAWO_GTEST_HOME='"$install_path"'
-#export DYNAWO_GMOCK_HOME=$DYNAWO_GTEST_HOME
-
-export PATH='"$install_path"'/bin:$PATH
-export PATH="$(dirname $(xcrun -f llvm-cov))":$PATH
-
-if [ "$1" = "build-omcDynawo" ]; then
-  export ACLOCAL_PATH='"$install_path"'/share/aclocal:$ACLOCAL_PATH
-  export LDFLAGS="-L'"$install_path"'/lib" # causes problem with boost rpath so only set for omc build
-  export CPPFLAGS="-I'"$install_path"'/include"
-  export CFLAGS="-isysroot $(xcrun --show-sdk-path)"
-  export CXXFLAGS="-isysroot $(xcrun --show-sdk-path)"
-  export CPATH=$CPATH:"$(xcrun --show-sdk-path)/usr/include"
-  export JAVA_HOME='"$install_path"'/Java/'"$(ls $install_path/Java)"'/Contents/Home
-fi
-
-$DYNAWO_HOME/util/envDynawo.sh $@' > $install_path/myEnvDynawo.sh
-
-echo '#!/bin/bash
-
-export PATH='"$(find $install_path/Qt -type d -name "qtbase")"'/bin:'"$install_path"'/bin:$PATH
-export BOOST_ROOT='"$install_path"'
-
-MY_LDFLAGS="-L'"$install_path"'/lib"
-
-MY_CPPFLAGS="-I'"$install_path"'/include"
-
-export JAVA_HOME='"$install_path"'/Java/'"$(ls $install_path/Java)"'/Contents/Home
-
-export CPATH=$CPATH:"$(xcrun --show-sdk-path)/usr/include":'"$install_path"'/include
-
-autoreconf
-./configure --disable-option-checking --prefix='"$install_path"'/OpenModelica CC=clang CXX=clang++ '"'"'LDFLAGS=-L'"$install_path"'/lib -L'"$(find "$install_path"/Qt -type d -name "qtbase")""/lib'"' '"'"'CPPFLAGS=-I'"$install_path"'/include -I'"$(find "$install_path"/Qt -type d -name "qtbase")"'/include'"'"' CXXFLAGS=-stdlib=libc++ --cache-file=/dev/null --srcdir=.
-
-make -j '"$nb_proc"'
-make -j '"$nb_proc"' omplot
-make -j '"$nb_proc"' omedit
-make -j '"$nb_proc"' omnotebook 
-make -j '"$nb_proc"' omshell 
-make -j '"$nb_proc"' omlibrary-core
-make -j '"$nb_proc"' all
-
-install_name_tool -add_rpath '"$install_path"'/lib $(find build -name "OMEdit.app")/Contents/MacOS/OMEdit' > $install_path/install_openmodelica.sh
-chmod +x $install_path/install_openmodelica.sh
+#
+# pip_path=$(find /Users/$(id -u -n)/Library/Python -type f -name "pip" | head -1)
+# if [ ! -z "$pip_path" ]; then
+#   export PATH=$(dirname $pip_path):$PATH
+#   if [ -x "$(command -v pip)" ]; then
+#     pip_already_installed="yes"
+#   fi
+# fi
+#
+# if [ -z "$pip_already_installed" ]; then
+#   echo -e "Do you want to install pip? \033[1;31m(y/n)\033[0m"
+#   IFS= read -r -d\0 -n 1 pip_answer
+#   if [ ! "$pip_answer" = $'\n' ]; then echo ; fi
+#   case "$pip_answer" in
+#     [yY])
+#       pip_path=$(find /Users/$(id -u -n)/Library/Python -type f -name "pip" | head -1)
+#       if [ ! -z "$pip_path" ]; then
+#         export PATH=$(dirname $pip_path):$PATH
+#       fi
+#       if [ ! -x "$(command -v pip)" ]; then
+#         curl -L https://bootstrap.pypa.io/get-pip.py -o $SCRIPT_DIR/data/get-pip.py
+#         python $SCRIPT_DIR/data/get-pip.py --user
+#       fi
+#       ;;
+#     [nN]|$'\n')
+#       ;;
+#     *)
+#       echo "$pip_answer: invalid answer."
+#       ;;
+#   esac
+# fi
+#
+# pip_path=$(find /Users/$(id -u -n)/Library/Python -type f -name "pip" | head -1)
+# if [ ! -z "$pip_path" ]; then
+#   export PATH=$(dirname $pip_path):$PATH
+# fi
+# if [ -x "$(command -v pip)" ]; then
+#   pip install --user lxml
+#   pip install --user psutil
+# else
+#   echo "Something went wrong with pip. You need to install pip and two packages lxml and psutil."
+# fi
+#
+# echo '#!/bin/bash
+# export DYNAWO_HOME=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+#
+# export DYNAWO_SRC_OPENMODELICA=$DYNAWO_HOME/OpenModelica/Source
+# export DYNAWO_INSTALL_OPENMODELICA=$DYNAWO_HOME/OpenModelica/Install
+#
+# export DYNAWO_LOCALE=en_GB
+# export DYNAWO_RESULTS_SHOW=true
+# export DYNAWO_BROWSER="open -a Safari"
+#
+# export DYNAWO_NB_PROCESSORS_USED=1
+#
+# export DYNAWO_BUILD_TYPE=Release
+# export DYNAWO_CXX11_ENABLED=YES
+# export DYNAWO_COMPILER=CLANG
+# export DYNAWO_LIBRARY_TYPE=SHARED
+#
+# #export DYNAWO_LIBARCHIVE_HOME='"$install_path"'
+# #export DYNAWO_BOOST_HOME='"$install_path"'
+# #export DYNAWO_GTEST_HOME='"$install_path"'
+# #export DYNAWO_GMOCK_HOME=$DYNAWO_GTEST_HOME
+#
+# export PATH='"$install_path"'/bin:$PATH
+# export PATH="$(dirname $(xcrun -f llvm-cov))":$PATH
+#
+# if [ "$1" = "build-omcDynawo" ]; then
+#   export ACLOCAL_PATH='"$install_path"'/share/aclocal:$ACLOCAL_PATH
+#   export LDFLAGS="-L'"$install_path"'/lib" # causes problem with boost rpath so only set for omc build
+#   export CPPFLAGS="-I'"$install_path"'/include"
+#   export CFLAGS="-isysroot $(xcrun --show-sdk-path)"
+#   export CXXFLAGS="-isysroot $(xcrun --show-sdk-path)"
+#   export CPATH=$CPATH:"$(xcrun --show-sdk-path)/usr/include"
+#   export JAVA_HOME='"$install_path"'/Java/'"$(ls $install_path/Java)"'/Contents/Home
+# fi
+#
+# $DYNAWO_HOME/util/envDynawo.sh $@' > $install_path/myEnvDynawo.sh
+#
+# echo '#!/bin/bash
+#
+# export PATH='"$(find $install_path/Qt -type d -name "qtbase")"'/bin:'"$install_path"'/bin:$PATH
+# export BOOST_ROOT='"$install_path"'
+#
+# MY_LDFLAGS="-L'"$install_path"'/lib"
+#
+# MY_CPPFLAGS="-I'"$install_path"'/include"
+#
+# export JAVA_HOME='"$install_path"'/Java/'"$(ls $install_path/Java)"'/Contents/Home
+#
+# export CPATH=$CPATH:"$(xcrun --show-sdk-path)/usr/include":'"$install_path"'/include
+#
+# autoreconf
+# ./configure --disable-option-checking --prefix='"$install_path"'/OpenModelica CC=clang CXX=clang++ '"'"'LDFLAGS=-L'"$install_path"'/lib -L'"$(find "$install_path"/Qt -type d -name "qtbase")""/lib'"' '"'"'CPPFLAGS=-I'"$install_path"'/include -I'"$(find "$install_path"/Qt -type d -name "qtbase")"'/include'"'"' CXXFLAGS=-stdlib=libc++ --cache-file=/dev/null --srcdir=.
+#
+# make -j '"$nb_proc"'
+# make -j '"$nb_proc"' omplot
+# make -j '"$nb_proc"' omedit
+# make -j '"$nb_proc"' omnotebook
+# make -j '"$nb_proc"' omshell
+# make -j '"$nb_proc"' omlibrary-core
+# make -j '"$nb_proc"' all
+#
+# install_name_tool -add_rpath '"$install_path"'/lib $(find build -name "OMEdit.app")/Contents/MacOS/OMEdit' > $install_path/install_openmodelica.sh
+# chmod +x $install_path/install_openmodelica.sh
