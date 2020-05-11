@@ -19,6 +19,7 @@ jobs:
           cp ./clean_rpath.sh $HOME/dynawo-macos-package
           cd $HOME/dynawo-macos-package
           ./clean_rpath.sh
+          rm -rf share/man share/doc lib/pkgconfig bin/autopoint bin/gettextize lib/gettext/user-email lib/*.la
           rm -f clean_rpath.sh
           cd $HOME
           zip -r package.zip dynawo-macos-package
