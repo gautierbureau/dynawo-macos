@@ -15,8 +15,8 @@ jobs:
 
       - name: Install
         run: |
-          pwd
-          ./install.sh -p $HOME/install -w no -j 4
+          ./install_gfrotran.sh -p $HOME/install -w no -j 4
+          ./install_omc.sh -p $HOME/install -j 4
           cd $HOME
           zip -r package.zip install
           curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Content-Type: application/zip' -X POST $(curl -s --request GET https://api.github.com/repos/gautierbureau/dynawo-macos/releases/tags/test | grep upload_url | cut -d '"' -f 4 | grep -o ".*assets")?name=package.zip --data-binary @package.zip
