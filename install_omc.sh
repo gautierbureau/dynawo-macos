@@ -64,21 +64,18 @@ $SCRIPT_DIR/libtool.sh -p $install_path -j $nb_proc || { echo "Error while libto
 [ -f "$install_path/bin/libtool" ] && mv $install_path/bin/libtool $install_path/bin/libtool.old
 $SCRIPT_DIR/sed.sh -p $install_path -j $nb_proc || { echo "Error while sed install."; exit 1; }
 $SCRIPT_DIR/openssl.sh -p $install_path -j $nb_proc || { echo "Error while openssl install."; exit 1; }
-#$SCRIPT_DIR/gettext.sh -p $install_path -j $nb_proc || { echo "Error while gettext install."; exit 1; }
+# $SCRIPT_DIR/gettext.sh -p $install_path -j $nb_proc || { echo "Error while gettext install."; exit 1; }
 $SCRIPT_DIR/xz.sh -p $install_path -j $nb_proc || { echo "Error while xz install."; exit 1; }
-$SCRIPT_DIR/cmake.sh -p $install_path -j $nb_proc || { echo "Error while cmake install."; exit 1; }
+if [ ! -x "$(command -v cmake)" ]; then
+  $SCRIPT_DIR/cmake.sh -p $install_path -j $nb_proc || { echo "Error while cmake install."; exit 1; }
+  expat_option="-a $install_path/bin"
+fi
 
-$SCRIPT_DIR/java.sh -p $install_path/Java || { echo "Error while java install."; exit 1; }
-
-$SCRIPT_DIR/help2man.sh -p $install_path -j $nb_proc || { echo "Error while help2man install."; exit 1; }
-$SCRIPT_DIR/texinfo.sh -p $install_path -j $nb_proc || { echo "Error while texinfo install."; exit 1; }
-$SCRIPT_DIR/icu.sh -p $install_path -j $nb_proc || { echo "Error while icu install."; exit 1; }
-$SCRIPT_DIR/omniorb.sh -p $install_path -j $nb_proc || { echo "Error while omniorb install."; exit 1; }
-$SCRIPT_DIR/hdf5.sh -p $install_path -j $nb_proc || { echo "Error while hdf5 install."; exit 1; }
+if [ ! -x "$(command -v cmake)" ]; then
+  $SCRIPT_DIR/java.sh -p $install_path/Java || { echo "Error while java install."; exit 1; }
+fi
 
 $SCRIPT_DIR/libssh2.sh -p $install_path -j $nb_proc --openssl $install_path || { echo "Error while libssh2 install."; exit 1; }
 $SCRIPT_DIR/wget.sh -p $install_path -j $nb_proc --openssl $install_path || { echo "Error while wget install."; exit 1; }
 
-$SCRIPT_DIR/libexpat.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while libexpat install."; exit 1; }
-$SCRIPT_DIR/ncurses.sh -p $install_path -j $nb_proc || { echo "Error while ncurses install."; exit 1; }
-$SCRIPT_DIR/readline.sh -p $install_path -j $nb_proc || { echo "Error while readline install."; exit 1; }
+$SCRIPT_DIR/libexpat.sh -p $install_path -j $nb_proc $expat_option || { echo "Error while libexpat install."; exit 1; }

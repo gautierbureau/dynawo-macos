@@ -78,14 +78,29 @@ $SCRIPT_DIR/install_gfrotran.sh -p $install_path -j $nb_proc $option_gfrotran
 
 $SCRIPT_DIR/install_omc.sh -p $install_path -j $nb_proc
 
-$SCRIPT_DIR/boost.sh -p $install_path -j $nb_proc || { echo "Error while boost install."; exit 1; }
-$SCRIPT_DIR/libarchive.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while libarchive install."; exit 1; }
+if [ ! -x "$(command -v cmake)" ]; then
+  libarchive_option="-a $install_path/bin"
+  googletest_option="-a $install_path/bin"
+  doxygen_option="-a $install_path/bin"
+  osg_option="-a $install_path/bin"
+fi
 
-$SCRIPT_DIR/googletest.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while googletest install."; exit 1; }
-$SCRIPT_DIR/doxygen.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while doxygen install."; exit 1; }
+$SCRIPT_DIR/boost.sh -p $install_path -j $nb_proc || { echo "Error while boost install."; exit 1; }
+$SCRIPT_DIR/libarchive.sh -p $install_path -j $nb_proc $libarchive_option || { echo "Error while libarchive install."; exit 1; }
+
+$SCRIPT_DIR/googletest.sh -p $install_path -j $nb_proc $googletest_option || { echo "Error while googletest install."; exit 1; }
+$SCRIPT_DIR/doxygen.sh -p $install_path -j $nb_proc $doxygen_option || { echo "Error while doxygen install."; exit 1; }
 $SCRIPT_DIR/lcov.sh -p $install_path -j $nb_proc || { echo "Error while lcov install."; exit 1; }
 
-$SCRIPT_DIR/osg.sh -p $install_path -j $nb_proc -a $install_path/bin || { echo "Error while OSG install."; exit 1; }
+$SCRIPT_DIR/help2man.sh -p $install_path -j $nb_proc || { echo "Error while help2man install."; exit 1; }
+$SCRIPT_DIR/texinfo.sh -p $install_path -j $nb_proc || { echo "Error while texinfo install."; exit 1; }
+$SCRIPT_DIR/icu.sh -p $install_path -j $nb_proc || { echo "Error while icu install."; exit 1; }
+$SCRIPT_DIR/omniorb.sh -p $install_path -j $nb_proc || { echo "Error while omniorb install."; exit 1; }
+$SCRIPT_DIR/hdf5.sh -p $install_path -j $nb_proc || { echo "Error while hdf5 install."; exit 1; }
+$SCRIPT_DIR/ncurses.sh -p $install_path -j $nb_proc || { echo "Error while ncurses install."; exit 1; }
+$SCRIPT_DIR/readline.sh -p $install_path -j $nb_proc || { echo "Error while readline install."; exit 1; }
+
+$SCRIPT_DIR/osg.sh -p $install_path -j $nb_proc $osg_option || { echo "Error while OSG install."; exit 1; }
 
 $SCRIPT_DIR/qt.sh -p $install_path -j $nb_proc || { echo "Error while qt install."; exit 1; }
 
