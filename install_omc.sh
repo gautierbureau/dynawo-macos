@@ -25,16 +25,6 @@ while (($#)); do
       install_path=$2
       shift 2
       ;;
-    --with-sudo|-w)
-      if [ "$2" = "no" -o "$2" = "yes" ]; then
-        with_sudo=$2
-      else
-        echo "$2: invalid option with --with-sudo."
-        usage
-        exit 1
-      fi
-      shift 2
-      ;;
     --nb-proc|-j)
       case $2 in
         [0-9]*)
@@ -67,26 +57,6 @@ if [ "$SCRIPT_DIR" = "$install_path" ]; then
   echo "Install path, $install_path, should be different than script directory, $SCRIPT_DIR."
 fi
 
-if [ -z "$with_sudo" ]; then
-  echo -e "Do you have sudo privileges? \033[1;31m(y/n)\033[0m"
-  echo "  yes: we will install a precompiled gfortran (from http://hpc.sourceforge.net) in /usr/local. It means you will need to have /usr/local/bin in your PATH environment variable."
-  echo "  no: we will install a local gfortran from sources but it may take some time to compile. If you don't want to install gfortran in the default path use this option."
-
-  IFS= read -r -d\0 -n 1 sudo_answer
-  if [ ! "$sudo_answer" = $'\n' ]; then echo ; fi
-  case "$sudo_answer" in
-    [yY])
-      with_sudo="yes"
-      ;;
-    [nN]|$'\n')
-      with_sudo="no"
-      ;;
-    *)
-      echo "$sudo_answer: invalid answer."
-      ;;
-  esac
-fi
-
 $SCRIPT_DIR/autoconf.sh -p $install_path -j $nb_proc || { echo "Error while autoconf install."; exit 1; }
 $SCRIPT_DIR/automake.sh -p $install_path -j $nb_proc -a $install_path/bin  || { echo "Error while automake install."; exit 1; }
 $SCRIPT_DIR/pkg-config.sh -p $install_path -j $nb_proc || { echo "Error while pkg-config install."; exit 1; }
@@ -94,7 +64,7 @@ $SCRIPT_DIR/libtool.sh -p $install_path -j $nb_proc || { echo "Error while libto
 [ -f "$install_path/bin/libtool" ] && mv $install_path/bin/libtool $install_path/bin/libtool.old
 $SCRIPT_DIR/sed.sh -p $install_path -j $nb_proc || { echo "Error while sed install."; exit 1; }
 $SCRIPT_DIR/openssl.sh -p $install_path -j $nb_proc || { echo "Error while openssl install."; exit 1; }
-$SCRIPT_DIR/gettext.sh -p $install_path -j $nb_proc || { echo "Error while gettext install."; exit 1; }
+#$SCRIPT_DIR/gettext.sh -p $install_path -j $nb_proc || { echo "Error while gettext install."; exit 1; }
 $SCRIPT_DIR/xz.sh -p $install_path -j $nb_proc || { echo "Error while xz install."; exit 1; }
 $SCRIPT_DIR/cmake.sh -p $install_path -j $nb_proc || { echo "Error while cmake install."; exit 1; }
 
