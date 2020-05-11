@@ -16,6 +16,10 @@ jobs:
       - name: Install
         run: |
           ./install_omc.sh -p $HOME/dynawo-macos-package -j 4
+          cp ./clean_rpath.sh $HOME/dynawo-macos-package
+          cd $HOME/dynawo-macos-package
+          ./clean_rpath.sh
+          rm -f clean_rpath.sh
           cd $HOME
           zip -r package.zip dynawo-macos-package
           asset_id=$(curl -s -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' --request GET https://api.github.com/repos/gautierbureau/dynawo-macos/releases/tags/test | grep -B 2 -m 1 package.zip | grep '"id"' | awk '{print $2}' | tr -d ',')
