@@ -54,7 +54,7 @@ fi
 
 install_path=$(python -c "import os; print(os.path.realpath('$install_path'))")
 
-GETTEXT_VERSION=0.20.1
+GETTEXT_VERSION=0.20.2
 GETTEXT_ARCHIVE=gettext-$GETTEXT_VERSION.tar.gz
 GETTEXT_DOWNLOAD_URL=https://ftp.gnu.org/pub/gnu/gettext
 GETTEXT_DIRECTORY=gettext-$GETTEXT_VERSION
