@@ -2,7 +2,7 @@
 
 for bin in $(find bin -mindepth 1); do
   for lib_path in $(otool -l $bin | grep RPATH -A2 | grep path | awk '{print $2}' | grep -v "@.*path"); do
-    install_name_tool -delete_rpath $lib_path $DYNAWO_DEPLOY_DIR/$bin
+    install_name_tool -delete_rpath $lib_path $bin
   done
 
   install_name_tool -add_rpath @loader_path/../lib $bin 2> /dev/null
