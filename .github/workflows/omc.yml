@@ -18,6 +18,7 @@ jobs:
           ./install_omc.sh -p $HOME/install -j 4
           cd $HOME
           zip -r package.zip install
-          url=$(curl -s -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' --request GET https://api.github.com/repos/gautierbureau/dynawo-macos/releases/tags/test | grep upload_url | cut -d '"' -f 4 | grep -o ".*assets")
-          echo $url
-          curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Content-Type: application/zip' -X POST  https://uploads.github.com/repos/gautierbureau/dynawo-macos/releases/26359298/assets?name=package.zip --data-binary @package.zip
+          asset_id=$(curl -s -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' --request GET https://api.github.com/repos/gautierbureau/dynawo-macos/releases/tags/test | grep -B 2 -m 1 package.zip | grep '"id"' | awk '{print $2}' | tr -d ',')
+          curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -X DELETE https://api.github.com/repos/gautierbureau/dynawo-macos/releases/assets/${asset_id}
+          upload_url=$(curl -s -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' --request GET https://api.github.com/repos/gautierbureau/dynawo-macos/releases/tags/test | grep upload_url | cut -d '"' -f 4 | grep -o ".*assets")
+          curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Content-Type: application/zip' -X POST  ${upload_url}?name=package.zip --data-binary @package.zip
