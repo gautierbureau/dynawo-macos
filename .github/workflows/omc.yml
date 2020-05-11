@@ -1,4 +1,4 @@
-name: CI
+name: OMC Packages
 
 on: [push]
 
@@ -15,7 +15,6 @@ jobs:
 
       - name: Install
         run: |
-          ./install_gfrotran.sh -p $HOME/install -w no -j 4
           ./install_omc.sh -p $HOME/install -j 4
           cd $HOME
           zip -r package.zip install
