@@ -85,6 +85,10 @@ if [ ! -x "$(command -v cmake)" ]; then
   osg_option="-a $install_path/bin"
 fi
 
+$SCRIPT_DIR/openssl.sh -p $install_path -j $nb_proc || { echo "Error while openssl install."; exit 1; }
+$SCRIPT_DIR/libssh2.sh -p $install_path -j $nb_proc --openssl $install_path || { echo "Error while libssh2 install."; exit 1; }
+$SCRIPT_DIR/wget.sh -p $install_path -j $nb_proc --openssl $install_path || { echo "Error while wget install."; exit 1; }
+
 $SCRIPT_DIR/boost.sh -p $install_path -j $nb_proc || { echo "Error while boost install."; exit 1; }
 $SCRIPT_DIR/libarchive.sh -p $install_path -j $nb_proc $libarchive_option || { echo "Error while libarchive install."; exit 1; }
 

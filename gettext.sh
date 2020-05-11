@@ -66,6 +66,6 @@ if [ ! -d "$SCRIPT_DIR/build/$GETTEXT_DIRECTORY" ]; then
 fi
 
 pushd $SCRIPT_DIR/build/$GETTEXT_DIRECTORY
-./configure CC=clang CXX=clang++ --prefix=$install_path || { echo "Error while configuring gettext."; exit 1; }
+./configure CC=clang CXX=clang++ --prefix=$install_path --disable-java || { echo "Error while configuring gettext."; exit 1; }
 make -j $nb_proc || { echo "Error while gettext make."; exit 1; }
 make -j $nb_proc install || { echo "Error while gettext make install."; exit 1; }

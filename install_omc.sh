@@ -57,14 +57,13 @@ if [ "$SCRIPT_DIR" = "$install_path" ]; then
   echo "Install path, $install_path, should be different than script directory, $SCRIPT_DIR."
 fi
 
-$SCRIPT_DIR/autoconf.sh -p $install_path -j $nb_proc || { echo "Error while autoconf install."; exit 1; }
-$SCRIPT_DIR/automake.sh -p $install_path -j $nb_proc -a $install_path/bin  || { echo "Error while automake install."; exit 1; }
-$SCRIPT_DIR/pkg-config.sh -p $install_path -j $nb_proc || { echo "Error while pkg-config install."; exit 1; }
-$SCRIPT_DIR/libtool.sh -p $install_path -j $nb_proc || { echo "Error while libtool install."; exit 1; }
-[ -f "$install_path/bin/libtool" ] && mv $install_path/bin/libtool $install_path/bin/libtool.old
+# $SCRIPT_DIR/autoconf.sh -p $install_path -j $nb_proc || { echo "Error while autoconf install."; exit 1; }
+# $SCRIPT_DIR/automake.sh -p $install_path -j $nb_proc -a $install_path/bin  || { echo "Error while automake install."; exit 1; }
+# $SCRIPT_DIR/pkg-config.sh -p $install_path -j $nb_proc || { echo "Error while pkg-config install."; exit 1; }
+# $SCRIPT_DIR/libtool.sh -p $install_path -j $nb_proc || { echo "Error while libtool install."; exit 1; }
+# [ -f "$install_path/bin/libtool" ] && mv $install_path/bin/libtool $install_path/bin/libtool.old
 $SCRIPT_DIR/sed.sh -p $install_path -j $nb_proc || { echo "Error while sed install."; exit 1; }
-$SCRIPT_DIR/openssl.sh -p $install_path -j $nb_proc || { echo "Error while openssl install."; exit 1; }
-# $SCRIPT_DIR/gettext.sh -p $install_path -j $nb_proc || { echo "Error while gettext install."; exit 1; }
+$SCRIPT_DIR/gettext.sh -p $install_path -j $nb_proc || { echo "Error while gettext install."; exit 1; }
 $SCRIPT_DIR/xz.sh -p $install_path -j $nb_proc || { echo "Error while xz install."; exit 1; }
 if [ ! -x "$(command -v cmake)" ]; then
   $SCRIPT_DIR/cmake.sh -p $install_path -j $nb_proc || { echo "Error while cmake install."; exit 1; }
@@ -74,8 +73,5 @@ fi
 if [ ! -x "$(command -v cmake)" ]; then
   $SCRIPT_DIR/java.sh -p $install_path/Java || { echo "Error while java install."; exit 1; }
 fi
-
-$SCRIPT_DIR/libssh2.sh -p $install_path -j $nb_proc --openssl $install_path || { echo "Error while libssh2 install."; exit 1; }
-$SCRIPT_DIR/wget.sh -p $install_path -j $nb_proc --openssl $install_path || { echo "Error while wget install."; exit 1; }
 
 $SCRIPT_DIR/libexpat.sh -p $install_path -j $nb_proc $expat_option || { echo "Error while libexpat install."; exit 1; }
