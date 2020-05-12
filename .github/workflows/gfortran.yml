@@ -31,6 +31,6 @@ jobs:
           #echo $asset_id
           #[ ! -z "$asset_id" ] && curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -X DELETE https://api.github.com/repos/gautierbureau/dynawo-macos/releases/assets/${asset_id}
           #echo "delete done"
-          upload_url=$(curl -s -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' --request GET https://api.github.com/repos/gautierbureau/dynawo-macos/releases/tags/test | grep upload_url | cut -d '"' -f 4 | grep -o ".*assets")
-          echo "$upload_url"
-          curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Content-Type: application/zip' -X POST ${upload_url}?name=gfortran.zip --data-binary @gfortran.zip
+          #upload_url=$(curl -s -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' --request GET https://api.github.com/repos/gautierbureau/dynawo-macos/releases/tags/test | grep upload_url | cut -d '"' -f 4 | grep -o ".*assets")
+          #echo "$upload_url"
+          curl -v -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Content-Type: application/zip' -X POST https://uploads.github.com/repos/gautierbureau/dynawo-macos/releases/26359298/assets?name=gfortran.zip --data-binary @gfortran.zip
